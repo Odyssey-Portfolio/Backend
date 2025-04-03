@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddUnitOfWork();
+builder.Services.AddServices(); 
 builder.Services.AddSwaggerConfig();
 builder.Services.AddDatabase();
 builder.Services.AddEndpointsApiExplorer();

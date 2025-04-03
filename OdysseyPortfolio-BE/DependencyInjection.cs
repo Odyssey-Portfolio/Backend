@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OdysseyPortfolio_Libraries.Migrations;
 using OdysseyPortfolio_Libraries.Repositories;
+using OdysseyPortfolio_Libraries.Services;
+using OdysseyPortfolio_Libraries.Services.Implementations;
 
 namespace OdysseyPortfolio_BE
 {
@@ -19,14 +21,13 @@ namespace OdysseyPortfolio_BE
             services.AddDbContext<OdysseyPortfolioDbContext>(options => options.UseNpgsql(GetConnectionString()));
             return services;
         }
-        //public static IServiceCollection AddServices(this IServiceCollection services)
-        //{
-
-        //    services.AddScoped<IAuthenticationService, AuthenticationService>();
-        //    services.AddScoped<IStudentService, StudentService>();
-        //    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        //    return services;
-        //}
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            return services;
+        }
         public static IServiceCollection AddSwaggerConfig(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>

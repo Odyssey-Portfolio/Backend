@@ -11,7 +11,6 @@ namespace OdysseyPortfolio_Libraries.Migrations
 {
     public class OdysseyPortfolioDbContext : DbContext
     {
-
         public OdysseyPortfolioDbContext(DbContextOptions<OdysseyPortfolioDbContext> options)
                 : base(options)
         {
@@ -19,7 +18,7 @@ namespace OdysseyPortfolio_Libraries.Migrations
 
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(user =>

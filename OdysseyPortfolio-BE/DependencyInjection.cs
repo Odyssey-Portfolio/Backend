@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OdysseyPortfolio_Libraries.Migrations;
 using OdysseyPortfolio_Libraries.Repositories;
@@ -15,7 +16,7 @@ namespace OdysseyPortfolio_BE
         }           
         public static IServiceCollection AddDatabase(this IServiceCollection services)
         {
-            services.AddDbContext<OdysseyPortfolioDbContext>(options => options.UseSqlServer(GetConnectionString()));
+            services.AddDbContext<OdysseyPortfolioDbContext>(options => options.UseNpgsql(GetConnectionString()));
             return services;
         }
         //public static IServiceCollection AddServices(this IServiceCollection services)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Helpers;
@@ -15,48 +16,28 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
 {
     public class BlogService : IBlogService
     {
+        private CreateBlogHandler? _createBlogHandler;
+        private GetBlogsHandler? _getBlogsHandler;
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        private Blog? _blog;
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+        public BlogService(IUnitOfWork unitOfWork, IMapper mapper) {
+            _unitOfWork = unitOfWork;   
+            _mapper = mapper;   
+            InitializeServices();
         }
         public BlogServiceResponse Create(CreateBlogRequest request)
         {
-            try
-            {
-                _blog = _mapper.Map<Blog>(request);
-                SaveBlog();
-                return CreateBlogSuccessResponse();
-            }
-            catch (Exception ex)
-            {
-                return InternalServerErrorResponse(ex);
-            }
+            return _createBlogHandler.Handle(request);
         }
-        private void SaveBlog()
+
+        public BlogServiceResponse Get(GetBlogsRequest request)
         {
-            _blog.Id = Utils.GenerateEntityId<Blog>();
-            _unitOfWork.BlogRepository.Insert(_blog);
-            _unitOfWork.Save();
+            return _getBlogsHandler.Handle(request);    
         }
-        private BlogServiceResponse CreateBlogSuccessResponse()
+        private void InitializeServices()
         {
-            return new BlogServiceResponse()
-            {
-                StatusCode = ResponseCodes.CREATED,
-                Message = "Successfully created a blog.",
-            };
-        }
-        private BlogServiceResponse InternalServerErrorResponse(Exception ex)
-        {
-            return new BlogServiceResponse()
-            {
-                StatusCode = ResponseCodes.INTERNAL_SERVER_ERROR,
-                Message = $"Something went wrong on the server side. {ex.Message}"
-            };
+            _createBlogHandler = new CreateBlogHandler(_unitOfWork,_mapper);
+            _getBlogsHandler = new GetBlogsHandler(_unitOfWork, _mapper);
         }
     }
 }

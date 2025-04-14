@@ -1,7 +1,8 @@
 /OdysseyPortfolio-BE/obj
 /OdysseyPortfolio-BE/bin
 /OdysseyPortfolio-BE/.vs
-
+/OdysseyPortfolio-BE/appsettings.json
+/OdysseyPortfolio-BE/appsettings.Development.json
 
 /OdysseyPortfolio-Libraries/obj
 /OdysseyPortfolio-Libraries/bin

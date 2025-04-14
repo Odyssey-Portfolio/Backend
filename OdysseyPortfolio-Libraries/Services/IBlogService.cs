@@ -10,6 +10,7 @@ namespace OdysseyPortfolio_Libraries.Services
 {
     public interface IBlogService
     {
-        public BlogServiceResponse Create(CreateBlogRequest request);   
+        public BlogServiceResponse Create(CreateBlogRequest request);
+        public BlogServiceResponse Get(GetBlogsRequest request);
     }
 }

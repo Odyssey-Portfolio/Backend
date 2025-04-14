@@ -28,6 +28,15 @@ namespace OdysseyPortfolio_BE
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
         }
+        public static IServiceCollection AddCorsConfig(this IServiceCollection services)
+        {
+
+            services.AddCors(options => options.AddPolicy(name: "OdysseyPortfolioLocal", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();                
+            }));
+            return services;
+        }
         public static IServiceCollection AddSwaggerConfig(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>

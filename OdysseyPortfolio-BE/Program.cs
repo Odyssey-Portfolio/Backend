@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddCorsConfig();
 builder.Services.AddUnitOfWork();
 builder.Services.AddServices(); 
 builder.Services.AddSwaggerConfig();
@@ -26,5 +27,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors("OdysseyPortfolioLocal");
 
 app.Run();

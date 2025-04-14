@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using OdysseyPortfolio_Libraries.DTOs;
+using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Payloads.Request;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,9 @@ namespace OdysseyPortfolio_Libraries.Helpers
         public AutoMapperProfile()
         {
             CreateMap<CreateBlogRequest, Entities.Blog>()
+                .ForMember(blog => blog.Image, opt => opt.Ignore())
+                .ReverseMap();
+            CreateMap<Blog, GetBlog>()
                 .ReverseMap();
 
         }

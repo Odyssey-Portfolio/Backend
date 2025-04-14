@@ -15,9 +15,15 @@ namespace OdysseyPortfolio_BE.Controllers
 
         }
         [HttpPost]
-        public IActionResult CreatePost([FromBody] CreateBlogRequest request)
+        public IActionResult CreateBlog([FromForm] CreateBlogRequest request)
         {
             var result = _blogService.Create(request);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpGet]
+        public IActionResult GetBlogs([FromQuery] GetBlogsRequest request)
+        {
+            var result = _blogService.Get(request);
             return StatusCode(result.StatusCode, result);
         }
     }

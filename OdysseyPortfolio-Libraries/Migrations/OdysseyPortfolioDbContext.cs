@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OdysseyPortfolio_Libraries.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OdysseyPortfolio_Libraries.Migrations
 {
-    public class OdysseyPortfolioDbContext : DbContext
+    public class OdysseyPortfolioDbContext : IdentityDbContext<User>
     {
         public OdysseyPortfolioDbContext(DbContextOptions<OdysseyPortfolioDbContext> options)
                 : base(options)
@@ -21,6 +22,10 @@ namespace OdysseyPortfolio_Libraries.Migrations
         public virtual DbSet<User> Users { get; set; } = null!;       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Initializes default values of the Identity Entity (User). 
+            //This includes Id.
+            base.OnModelCreating(modelBuilder); 
+            
             modelBuilder.Entity<User>(user =>
             {
                 user.HasMany(e => e.Blogs)

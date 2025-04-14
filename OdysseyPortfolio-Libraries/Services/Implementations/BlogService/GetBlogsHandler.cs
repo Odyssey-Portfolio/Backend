@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OdysseyPortfolio_Libraries.Services.Implementations
+namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
 {
     public class GetBlogsHandler
     {
@@ -22,11 +22,12 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
         private IEnumerable<Blog>? _blogs;
         private List<GetBlog>? _getBlogs;
 
-        public GetBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper) { 
-            _unitOfWork = unitOfWork;   
-            _mapper = mapper;   
+        public GetBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public BlogServiceResponse Handle(GetBlogsRequest request)
+        public ServiceResponse Handle(GetBlogsRequest request)
         {
             try
             {
@@ -36,41 +37,43 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
                 ApplyRequestParameters();
                 return GetBlogsSuccessResponse();
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
                 return InternalServerErrorResponse(ex);
             }
-        }        
+        }
         private void MapBlogsToGetBlogs()
         {
             _getBlogs = new List<GetBlog>();
-            foreach (var blog in _blogs) {
+            foreach (var blog in _blogs)
+            {
                 var getBlog = _mapper.Map<GetBlog>(blog);
-                _getBlogs.Add(getBlog); 
+                _getBlogs.Add(getBlog);
             }
         }
         private void ApplyRequestParameters()
         {
-             _blogs = _blogs
-                .Skip((_request.PageNumber - 1) * _request.PageSize)
-                .Take(_request.PageSize)
-                .ToList();
+            _blogs = _blogs
+               .Skip((_request.PageNumber - 1) * _request.PageSize)
+               .Take(_request.PageSize)
+               .ToList();
         }
-        private BlogServiceResponse GetBlogsSuccessResponse()
+        private ServiceResponse GetBlogsSuccessResponse()
         {
-            return new BlogServiceResponse()
+            return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.SUCCESS,
                 Message = "Successfully retrieved all blogs.",
                 ReturnData = _getBlogs
             };
         }
-        private BlogServiceResponse InternalServerErrorResponse(Exception ex)
+        private ServiceResponse InternalServerErrorResponse(Exception ex)
         {
-            return new BlogServiceResponse()
+            return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.INTERNAL_SERVER_ERROR,
                 Message = $"Something went wrong on the server side. {ex.Message}"
             };
         }
-    }    
+    }
 }

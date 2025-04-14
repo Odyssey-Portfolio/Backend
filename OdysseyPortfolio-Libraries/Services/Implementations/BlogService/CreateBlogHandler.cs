@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OdysseyPortfolio_Libraries.Services.Implementations
+namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
 {
     public class CreateBlogHandler
     {
@@ -24,7 +24,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public BlogServiceResponse Handle(CreateBlogRequest request)
+        public ServiceResponse Handle(CreateBlogRequest request)
         {
             try
             {
@@ -49,17 +49,17 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
             _unitOfWork.BlogRepository.Insert(_blog);
             _unitOfWork.Save();
         }
-        private BlogServiceResponse CreateBlogSuccessResponse()
+        private ServiceResponse CreateBlogSuccessResponse()
         {
-            return new BlogServiceResponse()
+            return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.CREATED,
                 Message = "Successfully created a blog.",
             };
         }
-        private BlogServiceResponse InternalServerErrorResponse(Exception ex)
+        private ServiceResponse InternalServerErrorResponse(Exception ex)
         {
-            return new BlogServiceResponse()
+            return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.INTERNAL_SERVER_ERROR,
                 Message = $"Something went wrong on the server side. {ex.Message}"

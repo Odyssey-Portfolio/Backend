@@ -10,11 +10,9 @@ namespace OdysseyPortfolio_Libraries.Entities
 {
     public class User : IdentityUser
     {        
-        public string Id { get; set; } = null!;
+        public override string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Role { get; set; } = null!;
+        public override string Email { get; set; } = null!;        
         public ICollection<Comment> Comments { get; } = new List<Comment>();
         public ICollection<Blog> Blogs { get; } = new List<Blog>();
     }

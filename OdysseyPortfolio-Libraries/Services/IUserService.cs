@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OdysseyPortfolio_Libraries.Services
 {
-    public interface IBlogService
+    public interface IUserService
     {
-        public ServiceResponse Create(CreateBlogRequest request);
-        public ServiceResponse Get(GetBlogsRequest request);
+        public ServiceResponse Login(LoginRequest request);
+        public ServiceResponse Register(RegisterRequest request);
     }
 }

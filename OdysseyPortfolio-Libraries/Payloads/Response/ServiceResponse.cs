@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OdysseyPortfolio_Libraries.Payloads.Response
 {
-    public class BlogServiceResponse
+    public class ServiceResponse
     {
         public int StatusCode { get; set; }
         public string Message { get; set; } = null!;

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OdysseyPortfolio_Libraries.Services.Implementations
+namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
 {
     public class BlogService : IBlogService
     {
@@ -20,23 +20,24 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations
         private GetBlogsHandler? _getBlogsHandler;
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper) {
-            _unitOfWork = unitOfWork;   
-            _mapper = mapper;   
+        public BlogService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
             InitializeServices();
         }
-        public BlogServiceResponse Create(CreateBlogRequest request)
+        public ServiceResponse Create(CreateBlogRequest request)
         {
             return _createBlogHandler.Handle(request);
         }
 
-        public BlogServiceResponse Get(GetBlogsRequest request)
+        public ServiceResponse Get(GetBlogsRequest request)
         {
-            return _getBlogsHandler.Handle(request);    
+            return _getBlogsHandler.Handle(request);
         }
         private void InitializeServices()
         {
-            _createBlogHandler = new CreateBlogHandler(_unitOfWork,_mapper);
+            _createBlogHandler = new CreateBlogHandler(_unitOfWork, _mapper);
             _getBlogsHandler = new GetBlogsHandler(_unitOfWork, _mapper);
         }
     }

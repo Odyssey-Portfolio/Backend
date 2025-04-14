@@ -8,7 +8,8 @@ using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Migrations;
 using OdysseyPortfolio_Libraries.Repositories;
 using OdysseyPortfolio_Libraries.Services;
-using OdysseyPortfolio_Libraries.Services.Implementations;
+using OdysseyPortfolio_Libraries.Services.Implementations.BlogService;
+using OdysseyPortfolio_Libraries.Services.Implementations.UserService;
 
 namespace OdysseyPortfolio_BE
 {
@@ -33,6 +34,7 @@ namespace OdysseyPortfolio_BE
         {
 
             services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
         }

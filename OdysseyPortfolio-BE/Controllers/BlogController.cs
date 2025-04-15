@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Payloads.Request;
 using OdysseyPortfolio_Libraries.Services;
@@ -12,14 +13,16 @@ namespace OdysseyPortfolio_BE.Controllers
         public BlogController(IBlogService blogService)
         {
             _blogService = blogService;
-
         }
+
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public IActionResult CreateBlog([FromForm] CreateBlogRequest request)
         {
             var result = _blogService.Create(request);
             return StatusCode(result.StatusCode, result);
         }
+        
         [HttpGet]
         public IActionResult GetBlogs([FromQuery] GetBlogsRequest request)
         {

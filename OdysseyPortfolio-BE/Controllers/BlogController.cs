@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Payloads.Request;
 using OdysseyPortfolio_Libraries.Services;
+using System.Security.Claims;
 
 namespace OdysseyPortfolio_BE.Controllers
 {
-    [Route("/blog")]
+    [Route("[controller]")]
     public class BlogController : Controller
     {
         private IBlogService _blogService;
@@ -17,16 +18,17 @@ namespace OdysseyPortfolio_BE.Controllers
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
-        public IActionResult CreateBlog([FromForm] CreateBlogRequest request)
+        public async Task<IActionResult> CreateBlog([FromForm] CreateBlogRequest request)
         {
-            var result = _blogService.Create(request);
+            request.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;             
+            var result = await _blogService.Create(request);
             return StatusCode(result.StatusCode, result);
         }
         
         [HttpGet]
-        public IActionResult GetBlogs([FromQuery] GetBlogsRequest request)
+        public async Task<IActionResult> GetBlogs([FromQuery] GetBlogsRequest request)
         {
-            var result = _blogService.Get(request);
+            var result = await _blogService.Get(request);
             return StatusCode(result.StatusCode, result);
         }
     }

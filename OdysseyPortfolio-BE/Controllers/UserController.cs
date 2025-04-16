@@ -8,7 +8,7 @@ using LoginRequest = OdysseyPortfolio_Libraries.Payloads.Request.LoginRequest;
 
 namespace OdysseyPortfolio_BE.Controllers
 {
-    [Route("/user")]
+    [Route("[controller]")]
     public class UserController : Controller
     {
         private IUserService _userService;
@@ -16,6 +16,7 @@ namespace OdysseyPortfolio_BE.Controllers
         {
             _userService = userService;
         }
+        [Route("login")]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {

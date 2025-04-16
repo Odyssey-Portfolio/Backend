@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Microsoft.AspNetCore.Identity;
 using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Helpers;
@@ -18,26 +19,30 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
     {
         private CreateBlogHandler? _createBlogHandler;
         private GetBlogsHandler? _getBlogsHandler;
+        private readonly UserManager<User> _userManager;
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BlogService(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
             _mapper = mapper;
             InitializeServices();
         }
-        public ServiceResponse Create(CreateBlogRequest request)
+        public async Task<ServiceResponse> Create(CreateBlogRequest request)
         {
-            return _createBlogHandler.Handle(request);
+            var result = await _createBlogHandler.Handle(request);
+            return result;
         }
 
-        public ServiceResponse Get(GetBlogsRequest request)
+        public async Task<ServiceResponse> Get(GetBlogsRequest request)
         {
-            return _getBlogsHandler.Handle(request);
+            var result = await _getBlogsHandler.Handle(request);
+            return result;
         }
         private void InitializeServices()
         {
-            _createBlogHandler = new CreateBlogHandler(_unitOfWork, _mapper);
+            _createBlogHandler = new CreateBlogHandler(_unitOfWork, _userManager, _mapper);
             _getBlogsHandler = new GetBlogsHandler(_unitOfWork, _mapper);
         }
     }

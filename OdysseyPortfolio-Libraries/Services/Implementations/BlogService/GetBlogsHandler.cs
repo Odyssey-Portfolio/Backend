@@ -27,7 +27,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public ServiceResponse Handle(GetBlogsRequest request)
+        public async Task<ServiceResponse> Handle(GetBlogsRequest request)
         {
             try
             {

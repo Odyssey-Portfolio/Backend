@@ -60,7 +60,8 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             var userRoles = await _userManager.GetRolesAsync(_user);
             var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, _user.Id),
+                new Claim(ClaimTypes.Name, _user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
             foreach (var userRole in userRoles)

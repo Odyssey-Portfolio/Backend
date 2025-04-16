@@ -88,7 +88,8 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.CREATED,
-                Message = "Successfully created a blog.",
+                Message = "Successfully logged in.",
+                ReturnData = _jwtTokenString
             };
         }
         private ServiceResponse InvalidCredentialsResponse()

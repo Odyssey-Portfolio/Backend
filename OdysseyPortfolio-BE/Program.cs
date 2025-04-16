@@ -30,5 +30,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseCors("OdysseyPortfolioLocal");
-
+await app.Services.InitializeSecurityAsync();
+await app.Services.SeedRootAdminAsync();
 app.Run();

@@ -10,7 +10,7 @@ namespace OdysseyPortfolio_Libraries.Services
 {
     public interface IUserService
     {
-        public ServiceResponse Login(LoginRequest request);
-        public ServiceResponse Register(RegisterRequest request);
+        Task<ServiceResponse> Login(LoginRequest request);
+        Task<ServiceResponse> Register(RegisterRequest request);
     }
 }

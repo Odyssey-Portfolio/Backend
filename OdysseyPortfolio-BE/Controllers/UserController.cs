@@ -17,9 +17,9 @@ namespace OdysseyPortfolio_BE.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = _userService.Login(request);
+            var result = await _userService.Login(request);
             return StatusCode(result.StatusCode, result);
         }
     }

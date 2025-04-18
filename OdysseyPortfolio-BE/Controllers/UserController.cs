@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using OdysseyPortfolio_Libraries.Entities;
+using OdysseyPortfolio_Libraries.Helpers;
 using OdysseyPortfolio_Libraries.Payloads.Request;
 using OdysseyPortfolio_Libraries.Services;
+using static OdysseyPortfolio_Libraries.Helpers.HttpUtils;
 using LoginRequest = OdysseyPortfolio_Libraries.Payloads.Request.LoginRequest;
 
 namespace OdysseyPortfolio_BE.Controllers
@@ -21,6 +23,13 @@ namespace OdysseyPortfolio_BE.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await _userService.Login(request);
+            SetTokensInsideCookie(new SetTokensInsideCookieOptions()
+            {
+                HttpContext = HttpContext,
+                Token = (string)result.ReturnData,
+                TokenType = TokenTypes.REFRESH_TOKEN
+            });
+
             return StatusCode(result.StatusCode, result);
         }
     }

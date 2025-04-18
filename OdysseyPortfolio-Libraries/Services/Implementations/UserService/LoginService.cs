@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -80,7 +81,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
                 expires: DateTime.Now.AddHours(3),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+                );            
             return token;
         }
 
@@ -88,7 +89,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         {
             return new ServiceResponse()
             {
-                StatusCode = ResponseCodes.CREATED,
+                StatusCode = ResponseCodes.SUCCESS,
                 Message = "Successfully logged in.",
                 ReturnData = _jwtTokenString
             };

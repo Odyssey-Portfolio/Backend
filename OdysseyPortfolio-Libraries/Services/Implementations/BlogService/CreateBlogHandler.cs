@@ -53,7 +53,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
         private async void MapBlogRequestToBlog()
         {
             _blog = _mapper.Map<Blog>(_request);
-            _blog.Id = Utils.GenerateEntityId<Blog>();
+            _blog.Id = EntityUtils.GenerateEntityId<Blog>();
             _blog.Image = await FileUtils.IFormFileToBase64(_request.Image);
             _blog.User = _user;
         }

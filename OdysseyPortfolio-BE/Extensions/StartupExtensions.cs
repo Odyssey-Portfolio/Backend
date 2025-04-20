@@ -4,7 +4,7 @@ using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Helpers;
 using System.Reflection;
 
-namespace OdysseyPortfolio_BE
+namespace OdysseyPortfolio_BE.Extensions
 {
     public static class StartupExtensions
     {

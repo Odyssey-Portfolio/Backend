@@ -17,7 +17,7 @@ namespace OdysseyPortfolio_Libraries.Helpers
             CreateMap<CreateBlogRequest, Entities.Blog>()
                 .ForMember(blog => blog.Image, opt => opt.Ignore())
                 .ReverseMap();
-            CreateMap<Blog, GetBlog>()
+            CreateMap<Blog, GetBlogDto>()
                 .ReverseMap();
 
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Migrations;
 using OdysseyPortfolio_Libraries.Repositories;
@@ -11,10 +12,10 @@ using OdysseyPortfolio_Libraries.Services;
 using OdysseyPortfolio_Libraries.Services.Implementations.BlogService;
 using OdysseyPortfolio_Libraries.Services.Implementations.UserService;
 
-namespace OdysseyPortfolio_BE
+namespace OdysseyPortfolio_BE.Extensions
 {
 
-    public static class DependencyInjection
+    public static class ServiceExtensions
     {
         private static IConfigurationRoot config = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
@@ -40,11 +41,16 @@ namespace OdysseyPortfolio_BE
         }
         public static IServiceCollection AddCorsConfig(this IServiceCollection services)
         {
-
-            services.AddCors(options => options.AddPolicy(name: "OdysseyPortfolioLocal", builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-            }));
+            services.AddCors(options =>
+                options.AddPolicy(name: ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_LOCAL_CORS,
+                    policy =>
+                        {
+                            policy
+                            .WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
+                            .AllowAnyHeader().AllowAnyMethod()
+                            .AllowCredentials();
+                        })
+            );
             return services;
         }
 
@@ -68,7 +74,7 @@ namespace OdysseyPortfolio_BE
                 options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidIssuer = config["JWT:Issuer"],
@@ -77,6 +83,17 @@ namespace OdysseyPortfolio_BE
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         System.Text.Encoding.UTF8.GetBytes(config["JWT:SigningKey"]))
+                };
+                //Retrieves Cookies on receiving request from Frontend
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx =>
+                    {
+                        ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+                        if (!string.IsNullOrEmpty(accessToken))
+                            ctx.Token = accessToken;
+                        return Task.CompletedTask;
+                    }
                 };
             });
             return services;
@@ -116,7 +133,7 @@ namespace OdysseyPortfolio_BE
         }
 
         private static string GetConnectionString()
-        {           
+        {
             var strConn = config["ConnectionStrings:DefaultConnection"];
 
             return strConn;

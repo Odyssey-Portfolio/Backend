@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OdysseyPortfolio_Libraries.DTOs
 {
-    public class GetBlog
+    public class GetBlogDto
     {
         public string Id { get; set; } = null!;
         public string Image { get; set; } = "";

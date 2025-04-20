@@ -20,7 +20,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
         private IMapper _mapper;
         private GetBlogsRequest? _request;
         private IEnumerable<Blog>? _blogs;
-        private List<GetBlog>? _getBlogs;
+        private List<GetBlogDto>? _getBlogs;
 
         public GetBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -44,10 +44,10 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
         }
         private void MapBlogsToGetBlogs()
         {
-            _getBlogs = new List<GetBlog>();
+            _getBlogs = new List<GetBlogDto>();
             foreach (var blog in _blogs)
             {
-                var getBlog = _mapper.Map<GetBlog>(blog);
+                var getBlog = _mapper.Map<GetBlogDto>(blog);
                 _getBlogs.Add(getBlog);
             }
         }

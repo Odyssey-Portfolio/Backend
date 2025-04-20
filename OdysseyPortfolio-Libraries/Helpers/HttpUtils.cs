@@ -24,6 +24,7 @@ namespace OdysseyPortfolio_Libraries.Helpers
                             HttpOnly = true,
                             IsEssential = true,
                             Secure = true,
+                            Domain = "",
                             SameSite = SameSiteMode.None
                         });
                     break;
@@ -36,6 +37,7 @@ namespace OdysseyPortfolio_Libraries.Helpers
                             HttpOnly = true,
                             IsEssential = true,
                             Secure = true,
+                            Domain = "",
                             SameSite = SameSiteMode.None
                         });
                     break;

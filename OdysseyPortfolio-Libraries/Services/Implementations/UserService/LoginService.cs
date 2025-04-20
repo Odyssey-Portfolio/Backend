@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using OdysseyPortfolio_Libraries.Constants;
+using OdysseyPortfolio_Libraries.DTOs;
 using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Payloads.Request;
 using OdysseyPortfolio_Libraries.Payloads.Response;
@@ -26,6 +27,8 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         private LoginRequest? _request;
         private string _jwtTokenString;
         private User _user;
+        private IList<string> _userRoles;
+
         public LoginService(UserManager<User> userManager,
                             RoleManager<IdentityRole> roleManager,
                             IConfiguration configuration)
@@ -58,14 +61,14 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         }
         private async Task GenerateJwtToken()
         {
-            var userRoles = await _userManager.GetRolesAsync(_user);
+            _userRoles = await _userManager.GetRolesAsync(_user);
             var authClaims = new List<Claim>
                 {
                 new Claim(ClaimTypes.NameIdentifier, _user.Id),
                 new Claim(ClaimTypes.Name, _user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
-            foreach (var userRole in userRoles)
+            foreach (var userRole in _userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
@@ -81,7 +84,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
                 expires: DateTime.Now.AddHours(3),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );            
+                );
             return token;
         }
 
@@ -91,7 +94,14 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             {
                 StatusCode = ResponseCodes.SUCCESS,
                 Message = "Successfully logged in.",
-                ReturnData = _jwtTokenString
+                ReturnData =
+                    new LoggedInUserDto()
+                    {
+                        Id = _user.Id,
+                        Name = _user.Name,
+                        Roles = _userRoles.ToArray(),
+                        Token = _jwtTokenString,
+                    }
             };
         }
         private ServiceResponse InvalidCredentialsResponse()

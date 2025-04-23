@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace OdysseyPortfolio_BE.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
     public class BlogController : Controller
     {

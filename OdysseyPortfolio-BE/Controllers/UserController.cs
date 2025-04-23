@@ -12,6 +12,7 @@ using LoginRequest = OdysseyPortfolio_Libraries.Payloads.Request.LoginRequest;
 
 namespace OdysseyPortfolio_BE.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
     public class UserController : Controller
     {

@@ -32,15 +32,21 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             try
             {
                 _request = request;
-                _blogs = _unitOfWork.BlogRepository.Get();
+                GetBlogsBySearchParams();
                 MapBlogsToGetBlogs();
-                ApplyRequestParameters();
+                ApplyPagination();
                 return GetBlogsSuccessResponse();
             }
             catch (Exception ex)
             {
                 return InternalServerErrorResponse(ex);
             }
+        }
+        private void GetBlogsBySearchParams()
+        {            
+            if (_request?.Keyword == null) _blogs = _unitOfWork.BlogRepository.Get();
+            else _blogs = _unitOfWork.BlogRepository.Get(blog => 
+                blog.Title.ToLower().Contains(_request.Keyword));
         }
         private void MapBlogsToGetBlogs()
         {
@@ -51,7 +57,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
                 _getBlogs.Add(getBlog);
             }
         }
-        private void ApplyRequestParameters()
+        private void ApplyPagination()
         {
             _blogs = _blogs
                .Skip((_request.PageNumber - 1) * _request.PageSize)

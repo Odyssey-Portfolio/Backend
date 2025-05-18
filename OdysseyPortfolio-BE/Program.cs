@@ -1,4 +1,5 @@
-using OdysseyPortfolio_BE;
+using OdysseyPortfolio_BE.Extensions;
+using OdysseyPortfolio_Libraries.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +25,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_LOCAL_CORS);
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors("OdysseyPortfolioLocal");
 
+await app.Services.InitializeSecurityAsync();
+await app.Services.SeedRootAdminAsync();
 app.Run();

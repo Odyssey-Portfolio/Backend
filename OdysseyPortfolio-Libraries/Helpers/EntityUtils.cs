@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OdysseyPortfolio_Libraries.Helpers
 {
-    public static class Utils
+    public static class EntityUtils
     {
         public static string GenerateEntityId<T>()
         {

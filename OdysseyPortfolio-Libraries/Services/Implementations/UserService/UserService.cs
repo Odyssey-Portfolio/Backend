@@ -28,14 +28,18 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             _configuration = configuration;
             InitializeServices();
         }
-        public ServiceResponse Login(LoginRequest request)
+        public async Task<ServiceResponse> Login(LoginRequest request)
         {
-            throw new NotImplementedException();
+            var result = await _loginService.Handle(request);
+            return result;
+        }
+        public async Task<ServiceResponse> Register(RegisterRequest request)
+        {
+            throw new Exception ();    
         }
         private void InitializeServices()
         {
             _loginService = new LoginService(_userManager, _roleManager, _configuration);
-        }
-
+        }    
     }
 }

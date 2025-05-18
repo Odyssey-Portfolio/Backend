@@ -20,21 +20,21 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
         private IMapper _mapper;
         private GetBlogsRequest? _request;
         private IEnumerable<Blog>? _blogs;
-        private List<GetBlog>? _getBlogs;
+        private List<GetBlogDto>? _getBlogs;
 
         public GetBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public ServiceResponse Handle(GetBlogsRequest request)
+        public async Task<ServiceResponse> Handle(GetBlogsRequest request)
         {
             try
             {
                 _request = request;
-                _blogs = _unitOfWork.BlogRepository.Get();
+                GetBlogsBySearchParams();
                 MapBlogsToGetBlogs();
-                ApplyRequestParameters();
+                ApplyPagination();
                 return GetBlogsSuccessResponse();
             }
             catch (Exception ex)
@@ -42,16 +42,22 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
                 return InternalServerErrorResponse(ex);
             }
         }
+        private void GetBlogsBySearchParams()
+        {            
+            if (_request?.Keyword == null) _blogs = _unitOfWork.BlogRepository.Get();
+            else _blogs = _unitOfWork.BlogRepository.Get(blog => 
+                blog.Title.ToLower().Contains(_request.Keyword));
+        }
         private void MapBlogsToGetBlogs()
         {
-            _getBlogs = new List<GetBlog>();
+            _getBlogs = new List<GetBlogDto>();
             foreach (var blog in _blogs)
             {
-                var getBlog = _mapper.Map<GetBlog>(blog);
+                var getBlog = _mapper.Map<GetBlogDto>(blog);
                 _getBlogs.Add(getBlog);
             }
         }
-        private void ApplyRequestParameters()
+        private void ApplyPagination()
         {
             _blogs = _blogs
                .Skip((_request.PageNumber - 1) * _request.PageSize)

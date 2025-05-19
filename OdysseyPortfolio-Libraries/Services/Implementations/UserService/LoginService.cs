@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using OdysseyPortfolio_Libraries.Constants;
@@ -27,15 +28,18 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         private LoginRequest? _request;
         private string _jwtTokenString;
         private User _user;
+        private ILogger _logger;
         private IList<string> _userRoles;
 
         public LoginService(UserManager<User> userManager,
                             RoleManager<IdentityRole> roleManager,
-                            IConfiguration configuration)
+                            IConfiguration configuration,
+                            ILogger logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _logger = logger;
         }
         public async Task<ServiceResponse> Handle(LoginRequest request)
         {
@@ -76,7 +80,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             _jwtTokenString = new JwtSecurityTokenHandler().WriteToken(token);
         }
         private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
+        {            
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SigningKey"]));
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
@@ -117,7 +121,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             return new ServiceResponse()
             {
                 StatusCode = ResponseCodes.INTERNAL_SERVER_ERROR,
-                Message = $"Something went wrong on the server side. {ex.Message}"
+                Message = $"Something went wrong on the server side. {ex.StackTrace.ToString()}"
             };
         }
     }

@@ -7,7 +7,7 @@
     <RootNamespace>OdysseyPortfolio_BE</RootNamespace>
     <UserSecretsId>f6afa88c-7f43-497d-a3a8-503d9ac84461</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>.</DockerfileContext>
+    <DockerfileContext>.</DockerfileContext>    
   </PropertyGroup>
 
   <ItemGroup>

@@ -17,18 +17,14 @@ namespace OdysseyPortfolio_BE.Extensions
 
     public static class ServiceExtensions
     {
-        private static IConfigurationRoot config = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appsettings.json", true, true)
-                       .Build();
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();            
             return services;
         }
-        public static IServiceCollection AddDatabase(this IServiceCollection services)
+        public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<OdysseyPortfolioDbContext>(options => options.UseNpgsql(GetConnectionString()));
+            services.AddDbContext<OdysseyPortfolioDbContext>(options => options.UseNpgsql(config["ConnectionStrings:Development"]));
             return services;
         }
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -54,7 +50,7 @@ namespace OdysseyPortfolio_BE.Extensions
             return services;
         }
 
-        public static IServiceCollection AddSecurity(this IServiceCollection services)
+        public static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
         {
 
             services.AddIdentity<User, IdentityRole>(options =>
@@ -130,13 +126,6 @@ namespace OdysseyPortfolio_BE.Extensions
             });
             });
             return services;
-        }
-
-        private static string GetConnectionString()
-        {
-            var strConn = config["ConnectionStrings:DefaultConnection"];
-
-            return strConn;
         }
     }
 

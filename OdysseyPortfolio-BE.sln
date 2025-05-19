@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OdysseyPortfolio-BE", "OdysseyPortfolio-BE\OdysseyPortfolio-BE.csproj", "{1D9BAEAE-09D2-4D46-A369-514DFCDB24E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OdysseyPortfolio-Libraries", "OdysseyPortfolio-Libraries\OdysseyPortfolio-Libraries.csproj", "{6DFE203C-EB56-4CF9-9816-C3947E1D3CD0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D9BAEAE-09D2-4D46-A369-514DFCDB24E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9BAEAE-09D2-4D46-A369-514DFCDB24E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9BAEAE-09D2-4D46-A369-514DFCDB24E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9BAEAE-09D2-4D46-A369-514DFCDB24E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DFE203C-EB56-4CF9-9816-C3947E1D3CD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFE203C-EB56-4CF9-9816-C3947E1D3CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFE203C-EB56-4CF9-9816-C3947E1D3CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFE203C-EB56-4CF9-9816-C3947E1D3CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816FAE5E-17F4-4A9C-B0EC-D9EB39708D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816FAE5E-17F4-4A9C-B0EC-D9EB39708D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816FAE5E-17F4-4A9C-B0EC-D9EB39708D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816FAE5E-17F4-4A9C-B0EC-D9EB39708D05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0494EB3D-E35F-41E9-B926-C93A6F2324AD}
+	EndGlobalSection
+EndGlobal

@@ -1,7 +1,9 @@
 using OdysseyPortfolio_BE.Extensions;
 using OdysseyPortfolio_Libraries.Constants;
 
+DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 var config = builder.Configuration;
 
 // Add services to the container.

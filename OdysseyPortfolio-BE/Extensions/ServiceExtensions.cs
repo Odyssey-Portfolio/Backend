@@ -19,7 +19,7 @@ namespace OdysseyPortfolio_BE.Extensions
     {
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration config)
@@ -38,15 +38,24 @@ namespace OdysseyPortfolio_BE.Extensions
         public static IServiceCollection AddCorsConfig(this IServiceCollection services)
         {
             services.AddCors(options =>
+            {
                 options.AddPolicy(name: ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_LOCAL_CORS,
                     policy =>
                         {
-                            policy
-                            .WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
+                            policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
                             .AllowAnyHeader().AllowAnyMethod()
                             .AllowCredentials();
-                        })
+                        });
+                options.AddPolicy(name: ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_DEPLOYMENT_CORS,
+                    policy =>
+                    {
+                        policy.WithOrigins("https://odyssey-portfolio.vercel.app")
+                        .AllowAnyHeader().AllowAnyMethod()
+                        .AllowCredentials();
+                    });
+            }
             );
+
             return services;
         }
 

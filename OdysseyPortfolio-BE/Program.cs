@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_DEPLOYMENT_CORS);
+app.UseCors(ServiceExtensionsConstants.ODYSSEY_PORTFOLIO_LOCAL_CORS);
 app.UseAuthentication();
 app.UseAuthorization();
 

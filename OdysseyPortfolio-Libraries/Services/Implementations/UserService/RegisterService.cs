@@ -75,8 +75,8 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         private async Task CreateUser()
         {
             _user = _mapper.Map<User>(_request);
-
-            var result = await _userManager.CreateAsync(_user, _request.Password);
+            _user.UserName = _request?.Email;
+            var result = await _userManager.CreateAsync(_user, _request!.Password);
 
             if (!result.Succeeded)
             {

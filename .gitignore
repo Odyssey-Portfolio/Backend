@@ -8,3 +8,5 @@
 /OdysseyPortfolio-Libraries/bin
 
 /Docker
+/.vs
+/obj

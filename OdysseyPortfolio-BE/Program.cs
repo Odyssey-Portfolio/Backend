@@ -1,17 +1,20 @@
 using OdysseyPortfolio_BE.Extensions;
 using OdysseyPortfolio_Libraries.Constants;
 
+DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddCorsConfig();
-builder.Services.AddSecurity();
+builder.Services.AddSecurity(config);
 builder.Services.AddUnitOfWork();
 builder.Services.AddServices();
 builder.Services.AddSwaggerConfig();
-builder.Services.AddDatabase();
+builder.Services.AddDatabase(config);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

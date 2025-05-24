@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OdysseyPortfolio_Libraries.Constants;
 using OdysseyPortfolio_Libraries.Entities;
 using OdysseyPortfolio_Libraries.Payloads.Request;
@@ -18,14 +19,17 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<UserService> _logger;
         public UserService(
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<UserService> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _logger = logger;
             InitializeServices();
         }
         public async Task<ServiceResponse> Login(LoginRequest request)
@@ -38,8 +42,8 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             throw new Exception ();    
         }
         private void InitializeServices()
-        {
-            _loginService = new LoginService(_userManager, _roleManager, _configuration);
+        {            
+            _loginService = new LoginService(_userManager, _roleManager, _configuration,_logger);
         }    
     }
 }

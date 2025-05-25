@@ -9,6 +9,7 @@ using OdysseyPortfolio_Libraries.Services;
 using static OdysseyPortfolio_Libraries.Helpers.HttpUtils;
 using static OdysseyPortfolio_Libraries.Services.Implementations.UserService.LoginService;
 using LoginRequest = OdysseyPortfolio_Libraries.Payloads.Request.LoginRequest;
+using RegisterRequest = OdysseyPortfolio_Libraries.Payloads.Request.RegisterRequest;
 
 namespace OdysseyPortfolio_BE.Controllers
 {
@@ -34,6 +35,21 @@ namespace OdysseyPortfolio_BE.Controllers
                 TokenType = TokenTypes.ACCESS_TOKEN
             });
             loggedInUser.Token = null;
+            return StatusCode(result.StatusCode, result);
+        }
+        [Route("register")]
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            var result = await _userService.Register(request);            
+            return StatusCode(result.StatusCode, result);
+        }
+        
+        [Route("logout")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _userService.Logout();
             return StatusCode(result.StatusCode, result);
         }
     }

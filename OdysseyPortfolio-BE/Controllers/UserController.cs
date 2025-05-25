@@ -44,5 +44,13 @@ namespace OdysseyPortfolio_BE.Controllers
             var result = await _userService.Register(request);            
             return StatusCode(result.StatusCode, result);
         }
+        
+        [Route("logout")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _userService.Logout();
+            return StatusCode(result.StatusCode, result);
+        }
     }
 }

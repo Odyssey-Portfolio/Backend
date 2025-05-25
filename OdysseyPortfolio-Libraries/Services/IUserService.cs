@@ -12,5 +12,6 @@ namespace OdysseyPortfolio_Libraries.Services
     {
         Task<ServiceResponse> Login(LoginRequest request);
         Task<ServiceResponse> Register(RegisterRequest request);
+        Task<ServiceResponse> Logout();
     }
 }

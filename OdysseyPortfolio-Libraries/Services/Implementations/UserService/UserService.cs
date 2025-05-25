@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,24 +18,28 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
     public class UserService : IUserService
     {
         private LoginService _loginService;
-        private RegisterService _registerService;   
+        private RegisterService _registerService;
+        private LogoutService _logoutService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<UserService> _logger;
         private readonly IMapper _mapper;
         public UserService(
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
-            ILogger<UserService> logger,
-            IMapper mapper)
+            ILogger<UserService> logger,            
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _logger = logger;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
             InitializeServices();
         }
         public async Task<ServiceResponse> Login(LoginRequest request)
@@ -47,10 +52,16 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.UserService
             var result = await _registerService.Handle(request);
             return result;
         }
+        public async Task<ServiceResponse> Logout()
+        {
+            var result = await _logoutService.Handle();
+            return result;
+        }
         private void InitializeServices()
         {            
             _loginService = new LoginService(_userManager, _roleManager, _configuration,_logger);
             _registerService = new RegisterService(_userManager, _roleManager, _configuration,_mapper, _logger);
+            _logoutService = new LogoutService(_httpContextAccessor,_logger);
         }    
     }
 }

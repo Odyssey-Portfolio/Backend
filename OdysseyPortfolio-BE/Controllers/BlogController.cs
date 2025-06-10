@@ -41,5 +41,14 @@ namespace OdysseyPortfolio_BE.Controllers
             var result = await _blogService.Update(request);
             return StatusCode(result.StatusCode, result);
         }
+
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBlog([FromForm] DeleteBlogRequest request)
+        {
+            request.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _blogService.Delete(request);
+            return StatusCode(result.StatusCode, result);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace OdysseyPortfolio_Libraries.Services
     {
         Task<ServiceResponse> Get(GetBlogsRequest request);
         Task<ServiceResponse> Create(CreateBlogRequest request);
-        Task<ServiceResponse> Update(UpdateBlogRequest request);        
+        Task<ServiceResponse> Update(UpdateBlogRequest request);
+        Task<ServiceResponse> Delete(DeleteBlogRequest request);
     }
 }

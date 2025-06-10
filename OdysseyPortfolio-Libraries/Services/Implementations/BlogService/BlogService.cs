@@ -52,7 +52,5 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             _getBlogsHandler = new GetBlogsHandler(_unitOfWork, _mapper);
             _updateBlogHandler = new UpdateBlogHandler(_unitOfWork, _userManager, _mapper);
         }
-
-      
     }
 }

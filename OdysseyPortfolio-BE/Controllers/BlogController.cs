@@ -41,6 +41,5 @@ namespace OdysseyPortfolio_BE.Controllers
             var result = await _blogService.Update(request);
             return StatusCode(result.StatusCode, result);
         }
-
     }
 }

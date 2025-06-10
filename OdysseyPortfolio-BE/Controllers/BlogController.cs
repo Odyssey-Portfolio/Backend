@@ -20,6 +20,7 @@ namespace OdysseyPortfolio_BE.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBlogs([FromQuery] GetBlogsRequest request)
         {
+            request.UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
             var result = await _blogService.Get(request);
             return StatusCode(result.StatusCode, result);
         }

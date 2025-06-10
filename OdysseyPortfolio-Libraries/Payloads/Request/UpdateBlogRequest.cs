@@ -17,7 +17,7 @@ namespace OdysseyPortfolio_Libraries.Payloads.Request
         [Required(ErrorMessage = "Content is required.")]
         public string Content { get; set; } = null!;
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore]
         public string? UserId { get; set; }
     }
 }

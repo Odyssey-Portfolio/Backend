@@ -19,6 +19,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
     {
         private CreateBlogHandler? _createBlogHandler;
         private GetBlogsHandler? _getBlogsHandler;
+        private UpdateBlogHandler? _updateBlogHandler;
         private readonly UserManager<User> _userManager;
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
@@ -40,10 +41,18 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             var result = await _getBlogsHandler.Handle(request);
             return result;
         }
+        public async Task<ServiceResponse> Update(UpdateBlogRequest request)
+        {
+            var result = await _updateBlogHandler.Handle(request);
+            return result;
+        }
         private void InitializeServices()
         {
             _createBlogHandler = new CreateBlogHandler(_unitOfWork, _userManager, _mapper);
             _getBlogsHandler = new GetBlogsHandler(_unitOfWork, _mapper);
+            _updateBlogHandler = new UpdateBlogHandler(_unitOfWork, _userManager, _mapper);
         }
+
+      
     }
 }

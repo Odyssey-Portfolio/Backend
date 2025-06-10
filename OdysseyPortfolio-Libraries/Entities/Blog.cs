@@ -15,6 +15,7 @@ namespace OdysseyPortfolio_Libraries.Entities
         public string Content { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string UserId { get; set; } = null!;
+        public bool IsDeleted { get; set; } = false;
         public User User { get; set; } = null!; 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>()!;
         public ICollection<Image> Images { get; set; } = new List<Image>()!;

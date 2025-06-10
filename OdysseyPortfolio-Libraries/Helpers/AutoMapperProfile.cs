@@ -21,6 +21,9 @@ namespace OdysseyPortfolio_Libraries.Helpers
                 .ReverseMap();
             CreateMap<RegisterRequest, Entities.User>()
                 .ReverseMap();
+            CreateMap<UpdateBlogRequest, Entities.Blog>()
+                .ForMember(blog => blog.Id, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

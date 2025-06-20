@@ -48,6 +48,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             if (_request?.Keyword == null) _blogs = _unitOfWork.BlogRepository.Get();
             else _blogs = _unitOfWork.BlogRepository.Get(blog =>
                 blog.Title.ToLower().Contains(_request.Keyword));
+            _blogs = _blogs.OrderByDescending(b => b.Id);
         }
         private void MapBlogsToGetBlogs()
         {

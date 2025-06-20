@@ -17,6 +17,14 @@ namespace OdysseyPortfolio_BE.Controllers
             _blogService = blogService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetBlogs([FromQuery] GetBlogsRequest request)
+        {
+            request.UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var result = await _blogService.Get(request);
+            return StatusCode(result.StatusCode, result);
+        }
+
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateBlog([FromForm] CreateBlogRequest request)
@@ -26,10 +34,21 @@ namespace OdysseyPortfolio_BE.Controllers
             return StatusCode(result.StatusCode, result);
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetBlogs([FromQuery] GetBlogsRequest request)
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateBlog([FromForm] UpdateBlogRequest request)
         {
-            var result = await _blogService.Get(request);
+            request.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _blogService.Update(request);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBlog([FromForm] DeleteBlogRequest request)
+        {
+            request.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _blogService.Delete(request);
             return StatusCode(result.StatusCode, result);
         }
     }

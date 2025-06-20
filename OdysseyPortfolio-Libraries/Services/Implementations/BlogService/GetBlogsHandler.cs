@@ -33,8 +33,9 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             {
                 _request = request;
                 GetBlogsBySearchParams();
+                RemoveDeletedBlogsForNonAdminUsers();
                 MapBlogsToGetBlogs();
-                ApplyPagination();
+                ApplyPagination();                
                 return GetBlogsSuccessResponse();
             }
             catch (Exception ex)
@@ -43,10 +44,11 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             }
         }
         private void GetBlogsBySearchParams()
-        {            
+        {
             if (_request?.Keyword == null) _blogs = _unitOfWork.BlogRepository.Get();
-            else _blogs = _unitOfWork.BlogRepository.Get(blog => 
+            else _blogs = _unitOfWork.BlogRepository.Get(blog =>
                 blog.Title.ToLower().Contains(_request.Keyword));
+            _blogs = _blogs.OrderByDescending(b => b.Id);
         }
         private void MapBlogsToGetBlogs()
         {
@@ -63,6 +65,11 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
                .Skip((_request.PageNumber - 1) * _request.PageSize)
                .Take(_request.PageSize)
                .ToList();
+        }     
+        private void RemoveDeletedBlogsForNonAdminUsers()
+        {
+            if(_request.UserRole != UserRoles.Admin)
+                _blogs = _blogs.Where(blog => !blog.IsDeleted);
         }
         private ServiceResponse GetBlogsSuccessResponse()
         {

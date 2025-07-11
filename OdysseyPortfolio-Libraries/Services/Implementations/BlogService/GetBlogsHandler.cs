@@ -55,7 +55,7 @@ namespace OdysseyPortfolio_Libraries.Services.Implementations.BlogService
             _getBlogs = new List<GetBlogDto>();
             foreach (var blog in _blogs)
             {
-                var getBlog = _mapper.Map<GetBlogDto>(blog);
+                var getBlog = _mapper.Map<GetBlogDto>(blog);                
                 _getBlogs.Add(getBlog);
             }
         }
